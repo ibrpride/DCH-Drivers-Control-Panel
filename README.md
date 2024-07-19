@@ -44,7 +44,7 @@ reg add "HKCR\Directory\Background\ShellEx\ContextMenuHandlers\NvCplDesktopConte
 ```
 
 
-♻️ reverted script to uninstall the NVIDIA Control Panel and remove the related registry entries:
+♻️ Reverted script to Uninstall the NVIDIA Control Panel and remove the related registry entries
 ---------------
 ```
 @echo off & title Uninstalling NVIDIA Control Panel & color 4 & echo Uninstalling NVIDIA Control Panel... & echo. & echo Removing registry entries... & reg delete "HKCR\Directory\Background\shell\Item0" /f >nul 2>&1 & echo Enabling Store Install Control Panel Notifications... & reg delete "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\nvlddmkm\Global\NVTweak" /v DisableStoreNvCplNotifications /f >nul 2>&1 & echo Deleting downloaded files... & del "%appdata%\nvcpl.dll" >nul 2>&1 & del "%appdata%\nvcplui.exe" >nul 2>&1 & echo. & echo Uninstallation complete. & timeout 3 /nobreak >nul
