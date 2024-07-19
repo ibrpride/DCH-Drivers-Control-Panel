@@ -43,6 +43,13 @@ The batch removes the key from NvCplDesktopContext so that there are not 2 diffe
 reg add "HKCR\Directory\Background\ShellEx\ContextMenuHandlers\NvCplDesktopContext" /ve /t REG_SZ /d "{3D1975AF-48C6-4f8e-A182-BE0E08FA86A9}" /f
 ```
 
+
+♻️ reverted script to uninstall the NVIDIA Control Panel and remove the related registry entries:
+---------------
+```
+@echo off & title Uninstalling NVIDIA Control Panel & color 4 & echo Uninstalling NVIDIA Control Panel... & echo. & echo Removing registry entries... & reg delete "HKCR\Directory\Background\shell\Item0" /f >nul 2>&1 & echo Enabling Store Install Control Panel Notifications... & reg delete "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\nvlddmkm\Global\NVTweak" /v DisableStoreNvCplNotifications /f >nul 2>&1 & echo Deleting downloaded files... & del "%appdata%\nvcpl.dll" >nul 2>&1 & del "%appdata%\nvcplui.exe" >nul 2>&1 & echo. & echo Uninstallation complete. & timeout 3 /nobreak >nul
+```
+
 <br>
 
 ❔ What's behind the script
