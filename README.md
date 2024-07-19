@@ -13,7 +13,8 @@ Installation CMD 📺
 powershell Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-WebRequest "https://github.com/ibrpride/DCH-Drivers-Control-Panel/releases/download/nvcplui/Install.NvidiaControlPanel.bat" -OutFile "$env:temp\NvidiaControlPanel.bat"; Start-process $env:temp\NvidiaControlPanel.bat
 ```
 
-Installation CMD 📺
+Launch Command
+Stable Branch 📺
 ---------------
 ```ruby
 irm "https://ibrpride.com/nvcplui" | iex
