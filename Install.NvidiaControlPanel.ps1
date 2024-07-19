@@ -25,9 +25,9 @@ if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 
 # Function to set console properties
 function Set-ConsoleProperties {
-    $Host.UI.RawUI.WindowTitle = "Installing NVIDIA Control Panel"
+    $Host.UI.RawUI.WindowTitle = "Installing NVIDIA Control Panel | IBRPRIDE"
     $Host.UI.RawUI.BackgroundColor = "Black"
-    $Host.UI.RawUI.ForegroundColor = "Green"
+    $Host.UI.RawUI.ForegroundColor = "Black"
     Clear-Host
     Write-Host "Installing NVIDIA Control Panel..."
     Write-Host
