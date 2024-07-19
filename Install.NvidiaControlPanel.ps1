@@ -25,9 +25,9 @@ if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 
 # Function to set console properties
 function Set-ConsoleProperties {
-    $Host.UI.RawUI.WindowTitle = "Installing NVIDIA Control Panel | IBRPRIDE"
+    $Host.UI.RawUI.WindowTitle = "Installing NVIDIA Control Panel"
     $Host.UI.RawUI.BackgroundColor = "Black"
-    $Host.UI.RawUI.ForegroundColor = "Black"
+    $Host.UI.RawUI.ForegroundColor = "Green"
     Clear-Host
     Write-Host "Installing NVIDIA Control Panel..."
     Write-Host
@@ -52,26 +52,27 @@ function Download-File {
 # Function to set up registry entries
 function Setup-RegistryEntries {
     Write-Host "Setting up registry entries..."
-    Remove-Item -Path "HKCR:\Directory\Background\ShellEx\ContextMenuHandlers\NvCplDesktopContext" -Force -ErrorAction SilentlyContinue
-    New-Item -Path "HKCR:\Directory\Background\shell\Item0" -Force
-    Set-ItemProperty -Path "HKCR:\Directory\Background\shell\Item0" -Name "MUIVerb" -Value "NVIDIA Control Panel"
-    Set-ItemProperty -Path "HKCR:\Directory\Background\shell\Item0" -Name "Icon" -Value "$env:APPDATA\nvcpl.dll,0"
-    New-Item -Path "HKCR:\Directory\Background\shell\Item0\command" -Force
-    Set-ItemProperty -Path "HKCR:\Directory\Background\shell\Item0\command" -Name "(default)" -Value "$env:APPDATA\nvcplui.exe"
+    Start-Process reg.exe -ArgumentList "delete `""HKEY_CLASSES_ROOT\Directory\Background\ShellEx\ContextMenuHandlers\NvCplDesktopContext`" /f" -NoNewWindow -Wait -ErrorAction SilentlyContinue
+    Start-Process reg.exe -ArgumentList "add `""HKEY_CLASSES_ROOT\Directory\Background\shell\Item0`" /v MUIVerb /t REG_SZ /d `""NVIDIA Control Panel`" /f" -NoNewWindow -Wait
+    Start-Process reg.exe -ArgumentList "add `""HKEY_CLASSES_ROOT\Directory\Background\shell\Item0`" /v Icon /t REG_SZ /d `""$env:APPDATA\nvcpl.dll,0`" /f" -NoNewWindow -Wait
+    Start-Process reg.exe -ArgumentList "add `""HKEY_CLASSES_ROOT\Directory\Background\shell\Item0\command`" /ve /t REG_SZ /d `""$env:APPDATA\nvcplui.exe`" /f" -NoNewWindow -Wait
 }
 
 # Function to disable store install control panel notifications
 function Disable-StoreNotifications {
     Write-Host "Disabling Store Install Control Panel Notifications..."
-    New-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Services\nvlddmkm\Global" -Name "NVTweak" -Force
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\nvlddmkm\Global\NVTweak" -Name "DisableStoreNvCplNotifications" -Value 1
+    Start-Process reg.exe -ArgumentList "add `""HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\nvlddmkm\Global\NVTweak`" /v DisableStoreNvCplNotifications /t REG_DWORD /d 1 /f" -NoNewWindow -Wait
 }
 
 # Main script execution
 Set-ConsoleProperties
 
-Download-File -url "https://github.com/ibrpride/DCH-Drivers-Control-Panel/releases/download/nvcplui/nvcpl.dll" -destination "$env:APPDATA\nvcpl.dll" -description "File 1/2"
-Download-File -url "https://github.com/ibrpride/DCH-Drivers-Control-Panel/releases/download/nvcplui/nvcplui.exe" -destination "$env:APPDATA\nvcplui.exe" -description "File 2/2"
+# Filenames for the downloaded files
+$file1 = "$env:APPDATA\nvcpl.dll"
+$file2 = "$env:APPDATA\nvcplui.exe"
+
+Download-File -url "https://github.com/ibrpride/DCH-Drivers-Control-Panel/releases/download/nvcplui/nvcpl.dll" -destination $file1 -description "File 1/2"
+Download-File -url "https://github.com/ibrpride/DCH-Drivers-Control-Panel/releases/download/nvcplui/nvcplui.exe" -destination $file2 -description "File 2/2"
 
 Setup-RegistryEntries
 Disable-StoreNotifications
