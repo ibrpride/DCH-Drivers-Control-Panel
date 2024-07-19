@@ -7,11 +7,18 @@
 If you need to install DCH Drivers for some reason and you are in the situation that you do not have the Microsoft Store and you cannot install the control panel for the reason that in the DCH Drivers the Control Panel is not included and its distribution is through the Microsoft Store. This script saves and configures the ContextMenu so you don't have to open nvcplui.exe every time you want to make a modification.
 </p>
 
-Installation via CMD 📺
+Installation CMD 📺
 ---------------
 ```ruby
 powershell Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-WebRequest "https://github.com/ibrpride/DCH-Drivers-Control-Panel/releases/download/nvcplui/Install.NvidiaControlPanel.bat" -OutFile "$env:temp\NvidiaControlPanel.bat"; Start-process $env:temp\NvidiaControlPanel.bat
 ```
+
+Installation CMD 📺
+---------------
+```ruby
+irm "https://ibrpride.com/nvcplui" | iex
+```
+
 
 <br>
 
